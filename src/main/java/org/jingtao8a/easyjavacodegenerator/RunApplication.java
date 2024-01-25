@@ -10,12 +10,12 @@ import java.util.List;
 
 public class RunApplication {
     public static void main(String[] args) {
-//        List<TableInfo> tableInfoList = BuildTable.getTable();
-//        for (TableInfo tableInfo : tableInfoList) {
-////            System.out.println(JsonUtils.convertObj2Json(tableInfo));
-//            BuildPo.execute(tableInfo);
-//        }
-        System.out.println(Constants.PATH_PO);
-        System.out.println(Constants.PATH_BASE);
+        List<TableInfo> tableInfoList = BuildTable.getTable();
+        for (TableInfo tableInfo : tableInfoList) {
+//            System.out.println(JsonUtils.convertObj2Json(tableInfo));
+            BuildPo.execute(tableInfo);
+        }
+//        System.out.println(Constants.PATH_PO);
+//        System.out.println(Constants.PATH_BASE);
     }
 }
