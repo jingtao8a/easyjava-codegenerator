@@ -37,9 +37,11 @@ public class BuildPo {
                 bw.write("import java.math.BigDecimal");
             }
             bw.newLine();
+            BuildComment.createClassComment(bw, tableInfo.getComment());
             bw.write("public class " + tableInfo.getBeanName() + " implements Serializable {");
             bw.newLine();
             for (FieldInfo fieldInfo : tableInfo.getFieldInfoList()) {
+                BuildComment.createFieldComment(bw, fieldInfo.getComment());
                 bw.write("\tprivate " + fieldInfo.getJavaType() + " " + fieldInfo.getPropertyName() + ";");
                 bw.newLine();
             }

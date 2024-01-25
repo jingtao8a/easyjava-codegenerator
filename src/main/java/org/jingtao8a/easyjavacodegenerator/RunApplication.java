@@ -4,8 +4,10 @@ import org.jingtao8a.easyjavacodegenerator.bean.Constants;
 import org.jingtao8a.easyjavacodegenerator.bean.TableInfo;
 import org.jingtao8a.easyjavacodegenerator.builder.BuildPo;
 import org.jingtao8a.easyjavacodegenerator.builder.BuildTable;
+import org.jingtao8a.easyjavacodegenerator.utils.DateUtils;
 import org.jingtao8a.easyjavacodegenerator.utils.JsonUtils;
 
+import java.util.Date;
 import java.util.List;
 
 public class RunApplication {
@@ -17,5 +19,6 @@ public class RunApplication {
         }
 //        System.out.println(Constants.PATH_PO);
 //        System.out.println(Constants.PATH_BASE);
+//        System.out.println(DateUtils.format(new Date(), DateUtils.YYYYMMDD));
     }
 }
