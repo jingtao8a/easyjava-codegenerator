@@ -9,6 +9,7 @@ public class Constants {
     public static String SUFFIX_BEAN_QUERY_FUZZY;
     public static String SUFFIX_BEAN_QUERY_TIME_START;
     public static String SUFFIX_BEAN_QUERY_TIME_END;
+    public static String SUFFIX_MAPPER;
     //需要忽略的属性
     public static String IGNORE_BEAN_TOJSON_FILED;
     public static String IGNORE_BEAN_TOJSON_EXPRESSION;
@@ -24,11 +25,12 @@ public class Constants {
     public static String PATH_PO;
     public static String PATH_UTILS;
     public static String PATH_QUERY;
+    public static String PATH_MAPPER;
     public static String PACKAGE_BASE;
     public static String PACKAGE_PO;
     public static String PACKAGE_UTILS;
     public static String PACKAGE_QUERY;
-
+    public static String PACKAGE_MAPPER;
     static {
         //需要忽略的属性
         IGNORE_BEAN_TOJSON_FILED = PropertiesUtils.getString("ignore.bean.tojson.filed");
@@ -46,11 +48,13 @@ public class Constants {
         SUFFIX_BEAN_QUERY_FUZZY = PropertiesUtils.getString("suffix.bean.query.fuzzy");
         SUFFIX_BEAN_QUERY_TIME_START = PropertiesUtils.getString("suffix.bean.query.time.start");
         SUFFIX_BEAN_QUERY_TIME_END = PropertiesUtils.getString("suffix.bean.query.time.end");
+        SUFFIX_MAPPER = PropertiesUtils.getString("suffix.mapper");
 
         PACKAGE_BASE = PropertiesUtils.getString("package.base");
         PACKAGE_PO = PACKAGE_BASE + "." + PropertiesUtils.getString("package.po");
         PACKAGE_UTILS = PACKAGE_BASE + "." + PropertiesUtils.getString("package.utils");
         PACKAGE_QUERY = PACKAGE_BASE + "." + PropertiesUtils.getString("package.query");
+        PACKAGE_MAPPER = PACKAGE_BASE + "." + PropertiesUtils.getString("package.mapper");
 
         PATH_BASE = PropertiesUtils.getString("path.base");
         PATH_BASE = PATH_BASE + PATH_JAVA;
@@ -58,6 +62,7 @@ public class Constants {
         PATH_PO = PATH_BASE + "/" + PACKAGE_PO.replace(".", "/");
         PATH_UTILS = PATH_BASE + "/" + PACKAGE_UTILS.replace(".", "/");
         PATH_QUERY = PATH_BASE + "/" + PACKAGE_QUERY.replace(".", "/");
+        PATH_MAPPER = PATH_BASE + "/" + PACKAGE_MAPPER.replace(".", "/");
     }
 
     public static final String[] SQL_DATE_TIME_TYPES = new String[]{"datetime", "timestamp"};
