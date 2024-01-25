@@ -30,6 +30,10 @@ public class BuildPo {
             bw = new BufferedWriter(outw);
             bw.write("package " + Constants.PACKAGE_PO + ";");
             bw.newLine();
+            bw.write("import lombok.Data;");
+            bw.newLine();
+            bw.write("import lombok.ToString;");
+            bw.newLine();
             bw.write("import java.io.Serializable;");
             if (tableInfo.getHaveDate() || tableInfo.getHaveDateTime()) {
                 bw.newLine();
@@ -43,8 +47,25 @@ public class BuildPo {
                 bw.newLine();
                 bw.write("import java.math.BigDecimal;");
             }
+            Boolean haveIgnoreBean = false;
+            for (FieldInfo fieldInfo : tableInfo.getFieldInfoList()) {
+                if (ArrayUtils.contains(Constants.IGNORE_BEAN_TOJSON_FILED.split(","), fieldInfo.getPropertyName())) {
+                    haveIgnoreBean = true;
+                    break;
+                }
+            }
+            if (haveIgnoreBean) {
+                bw.newLine();
+                bw.write(Constants.IGNORE_BEAN_TOJSON_CLASS + ";");
+                bw.newLine();
+            }
+
             bw.newLine();
             BuildComment.createClassComment(bw, tableInfo.getComment());
+            bw.write("@Data");
+            bw.newLine();
+            bw.write("@ToString");
+            bw.newLine();
             bw.write("public class " + tableInfo.getBeanName() + " implements Serializable {");
             bw.newLine();
             for (FieldInfo fieldInfo : tableInfo.getFieldInfoList()) {
@@ -59,6 +80,10 @@ public class BuildPo {
                     bw.write("\t" + String.format(Constants.BEAN_DATE_FORMAT_EXPRESSION, DateUtils.YYYY_MM_DD));
                     bw.newLine();
                     bw.write("\t" + String.format(Constants.BEAN_DATE_UNFORMAT_EXPRESSION, DateUtils.YYYY_MM_DD));
+                    bw.newLine();
+                }
+                if (ArrayUtils.contains(Constants.IGNORE_BEAN_TOJSON_FILED.split(","), fieldInfo.getPropertyName())) {
+                    bw.write("\t" + Constants.IGNORE_BEAN_TOJSON_EXPRESSION);
                     bw.newLine();
                 }
                 bw.write("\tprivate " + fieldInfo.getJavaType() + " " + fieldInfo.getPropertyName() + ";");
