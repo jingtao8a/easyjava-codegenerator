@@ -1,9 +1,12 @@
 package org.jingtao8a.easyjavacodegenerator.builder;
 
 
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
+import org.apache.commons.lang3.ArrayUtils;
 import org.jingtao8a.easyjavacodegenerator.bean.Constants;
 import org.jingtao8a.easyjavacodegenerator.bean.FieldInfo;
 import org.jingtao8a.easyjavacodegenerator.bean.TableInfo;
+import org.jingtao8a.easyjavacodegenerator.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,16 +28,20 @@ public class BuildPo {
             out = new FileOutputStream(poFile);
             outw = new OutputStreamWriter(out, "utf-8");
             bw = new BufferedWriter(outw);
-            bw.write("package " + Constants.PACKAGE_BASE + "." + Constants.PACKAGE_PO + ";");
+            bw.write("package " + Constants.PACKAGE_PO + ";");
             bw.newLine();
-            bw.write("import java.io.Serializable");
+            bw.write("import java.io.Serializable;");
             if (tableInfo.getHaveDate() || tableInfo.getHaveDateTime()) {
                 bw.newLine();
-                bw.write("import java.util.Date");
+                bw.write("import java.util.Date;");
+                bw.newLine();
+                bw.write(Constants.BEAN_DATE_FORMAT_CLASS + ";");
+                bw.newLine();
+                bw.write(Constants.BEAN_DATE_UNFORMAT_CLASS + ";");
             }
             if (tableInfo.getHaveBigDecimal()) {
                 bw.newLine();
-                bw.write("import java.math.BigDecimal");
+                bw.write("import java.math.BigDecimal;");
             }
             bw.newLine();
             BuildComment.createClassComment(bw, tableInfo.getComment());
@@ -42,6 +49,18 @@ public class BuildPo {
             bw.newLine();
             for (FieldInfo fieldInfo : tableInfo.getFieldInfoList()) {
                 BuildComment.createFieldComment(bw, fieldInfo.getComment());
+                if (ArrayUtils.contains(Constants.SQL_DATE_TIME_TYPES, fieldInfo.getSqlType())) {
+                    bw.write("\t" + String.format(Constants.BEAN_DATE_FORMAT_EXPRESSION, DateUtils.YYYY_MM_DD_HH_MM_SS));
+                    bw.newLine();
+                    bw.write("\t" + String.format(Constants.BEAN_DATE_UNFORMAT_EXPRESSION, DateUtils.YYYY_MM_DD_HH_MM_SS));
+                    bw.newLine();
+                }
+                if (ArrayUtils.contains(Constants.SQL_DATE_TYPES, fieldInfo.getSqlType())) {
+                    bw.write("\t" + String.format(Constants.BEAN_DATE_FORMAT_EXPRESSION, DateUtils.YYYY_MM_DD));
+                    bw.newLine();
+                    bw.write("\t" + String.format(Constants.BEAN_DATE_UNFORMAT_EXPRESSION, DateUtils.YYYY_MM_DD));
+                    bw.newLine();
+                }
                 bw.write("\tprivate " + fieldInfo.getJavaType() + " " + fieldInfo.getPropertyName() + ";");
                 bw.newLine();
             }

@@ -17,8 +17,8 @@ public class RunApplication {
 //            System.out.println(JsonUtils.convertObj2Json(tableInfo));
             BuildPo.execute(tableInfo);
         }
-//        System.out.println(Constants.PATH_PO);
-//        System.out.println(Constants.PATH_BASE);
+        System.out.println(Constants.PATH_PO);
+        System.out.println(Constants.PATH_BASE);
 //        System.out.println(DateUtils.format(new Date(), DateUtils.YYYYMMDD));
     }
 }
