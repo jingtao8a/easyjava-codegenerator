@@ -11,9 +11,12 @@ import org.jingtao8a.easyjavacodegenerator.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BuildTable {
     private static final Logger logger = LoggerFactory.getLogger(BuildTable.class);
@@ -35,7 +38,7 @@ public class BuildTable {
         }
     }
 
-    public static void getTable()  {
+    public static List<TableInfo> getTable()  {
         PreparedStatement ps = null;
         ResultSet tableResult = null;
 
@@ -86,6 +89,7 @@ public class BuildTable {
                 }
             }
         }
+        return tableInfoList;
     }
 
     private static List<FieldInfo> readFieldInfo(TableInfo tableInfo) {
@@ -151,6 +155,10 @@ public class BuildTable {
         PreparedStatement ps = null;
         ResultSet fieldResult = null;
         try {
+            Map<String, FieldInfo> tempMap = new HashMap<>();
+            for (FieldInfo fieldInfo : tableInfo.getFieldInfoList()) {
+                tempMap.put(fieldInfo.getFieldName(), fieldInfo);
+            }
             ps = conn.prepareStatement(String.format(SQL_SHOW_TABLE_INDEX, tableInfo.getTableName()));
             fieldResult = ps.executeQuery();
             while (fieldResult.next()) {
@@ -165,12 +173,7 @@ public class BuildTable {
                     keyFieldList = new ArrayList<FieldInfo>();
                     tableInfo.getKeyIndexMap().put(keyName, keyFieldList);
                 }
-                for (FieldInfo fieldInfo :tableInfo.getFieldInfoList()) {
-                    if (fieldInfo.getFieldName().equals((columnName))) {
-                        keyFieldList.add(fieldInfo);
-                    }
-                }
-
+                keyFieldList.add(tempMap.get(columnName));
             }
         } catch (Exception e) {
             logger.error("getKeyIndexInfo 失败");
