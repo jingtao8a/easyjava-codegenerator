@@ -61,7 +61,7 @@ public class BuildTable {
                 tableInfo.setTableName(tableName);
                 tableInfo.setBeanName(beanName);
                 tableInfo.setComment(comment);
-                tableInfo.setBeanParamName(beanName + Constants.SUFFIX_BEAN_PARAM);
+                tableInfo.setBeanParamName(beanName + Constants.SUFFIX_BEAN_QUERY);
 
                 List<FieldInfo> fieldInfoList = readFieldInfo(tableInfo);
 
