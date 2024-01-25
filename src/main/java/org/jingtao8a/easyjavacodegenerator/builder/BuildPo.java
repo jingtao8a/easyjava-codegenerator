@@ -110,6 +110,13 @@ public class BuildPo {
                     e.printStackTrace();
                 }
             }
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 }

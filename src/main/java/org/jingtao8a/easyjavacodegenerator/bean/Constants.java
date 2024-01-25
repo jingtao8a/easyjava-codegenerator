@@ -18,9 +18,11 @@ public class Constants {
     public static String PATH_RESOURCES = "resources";
     public static String PATH_BASE;
     public static String PATH_PO;
+    public static String PATH_UTILS;
     public static String PACKAGE_BASE;
     public static String PACKAGE_PO;
     public static String PACKAGE_PARAM;
+    public static String PACKAGE_UTILS;
 
     static {
         //需要忽略的属性
@@ -38,11 +40,13 @@ public class Constants {
 
         PACKAGE_BASE = PropertiesUtils.getString("package.base");
         PACKAGE_PO = PACKAGE_BASE + "." + PropertiesUtils.getString("package.po");
+        PACKAGE_UTILS = PACKAGE_BASE + "." + PropertiesUtils.getString("package.utils");
 
         PATH_BASE = PropertiesUtils.getString("path.base");
         PATH_BASE = PATH_BASE + PATH_JAVA;
 
         PATH_PO = PATH_BASE + "/" + PACKAGE_PO.replace(".", "/");
+        PATH_UTILS = PATH_BASE + "/" + PACKAGE_UTILS.replace(".", "/");
     }
 
     public static final String[] SQL_DATE_TIME_TYPES = new String[]{"datetime", "timestamp"};
