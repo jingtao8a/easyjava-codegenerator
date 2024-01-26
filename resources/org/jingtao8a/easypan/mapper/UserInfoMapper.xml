@@ -202,4 +202,116 @@
 			</if>
 		</trim>
 	</insert>
+
+	<!-- 插入或者更新 (匹配有值的字段) -->
+	<insert id="insertOrUpdate" parameterType="org.jingtao8a.easypan.entity.po.UserInfo">
+
+		INSERT INTO user_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="bean.userId != null">
+				user_id,
+			</if>
+			<if test="bean.nickName != null">
+				nick_name,
+			</if>
+			<if test="bean.email != null">
+				email,
+			</if>
+			<if test="bean.qqOpenId != null">
+				qq_open_id,
+			</if>
+			<if test="bean.qqAvatar != null">
+				qq_avatar,
+			</if>
+			<if test="bean.password != null">
+				password,
+			</if>
+			<if test="bean.joinTime != null">
+				join_time,
+			</if>
+			<if test="bean.lastLoginTime != null">
+				last_login_time,
+			</if>
+			<if test="bean.status != null">
+				status,
+			</if>
+			<if test="bean.userSpace != null">
+				user_space,
+			</if>
+			<if test="bean.totalSpace != null">
+				total_space,
+			</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+			<if test="bean.userId != null">
+				#{bean.userId},
+			</if>
+			<if test="bean.nickName != null">
+				#{bean.nickName},
+			</if>
+			<if test="bean.email != null">
+				#{bean.email},
+			</if>
+			<if test="bean.qqOpenId != null">
+				#{bean.qqOpenId},
+			</if>
+			<if test="bean.qqAvatar != null">
+				#{bean.qqAvatar},
+			</if>
+			<if test="bean.password != null">
+				#{bean.password},
+			</if>
+			<if test="bean.joinTime != null">
+				#{bean.joinTime},
+			</if>
+			<if test="bean.lastLoginTime != null">
+				#{bean.lastLoginTime},
+			</if>
+			<if test="bean.status != null">
+				#{bean.status},
+			</if>
+			<if test="bean.userSpace != null">
+				#{bean.userSpace},
+			</if>
+			<if test="bean.totalSpace != null">
+				#{bean.totalSpace},
+			</if>
+		</trim>
+		on DUPLICATE key update
+		<trim prefix="" suffix="" suffixOverrides=",">
+			<if test="bean.userId != null">
+				user_id = VALUES(user_id),
+			</if>
+			<if test="bean.nickName != null">
+				nick_name = VALUES(nick_name),
+			</if>
+			<if test="bean.email != null">
+				email = VALUES(email),
+			</if>
+			<if test="bean.qqOpenId != null">
+				qq_open_id = VALUES(qq_open_id),
+			</if>
+			<if test="bean.qqAvatar != null">
+				qq_avatar = VALUES(qq_avatar),
+			</if>
+			<if test="bean.password != null">
+				password = VALUES(password),
+			</if>
+			<if test="bean.joinTime != null">
+				join_time = VALUES(join_time),
+			</if>
+			<if test="bean.lastLoginTime != null">
+				last_login_time = VALUES(last_login_time),
+			</if>
+			<if test="bean.status != null">
+				status = VALUES(status),
+			</if>
+			<if test="bean.userSpace != null">
+				user_space = VALUES(user_space),
+			</if>
+			<if test="bean.totalSpace != null">
+				total_space = VALUES(total_space),
+			</if>
+		</trim>
+	</insert>
 </mapper>
