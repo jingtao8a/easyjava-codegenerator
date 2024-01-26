@@ -182,7 +182,7 @@ public class BuildMapperXml {
             bw.newLine();
             bw.write("\t<!-- 单条插入 -->");
             bw.newLine();
-            bw.write("\t<insert id=\"insert\" parameterType=\"" + Constants.PACKAGE_PO + "." + tableInfo.getBeanName() + "\">");
+            bw.write("\t<insert id=\"insert\" parameterType=\"" + poClass + "\">");
             bw.newLine();
             FieldInfo autoIncrementField = null;
             for (FieldInfo fieldInfo : tableInfo.getFieldInfoList()) {
@@ -232,7 +232,7 @@ public class BuildMapperXml {
             bw.newLine();
             bw.write("\t<!-- 插入或者更新 (匹配有值的字段) -->");
             bw.newLine();
-            bw.write("\t<insert id=\"insertOrUpdate\" parameterType=\"" + Constants.PACKAGE_PO + "." + tableInfo.getBeanName() + "\">");
+            bw.write("\t<insert id=\"insertOrUpdate\" parameterType=\"" + poClass + "\">");
             bw.newLine();
             bw.newLine();
             bw.write("\t\tINSERT INTO " + tableInfo.getTableName());
@@ -286,6 +286,147 @@ public class BuildMapperXml {
             bw.newLine();
             bw.write("\t</insert>");
             bw.newLine();
+
+            //添加(批量插入)
+            bw.write("\t<!-- 添加(批量插入)-->");
+            bw.newLine();
+            bw.write("\t<insert id=\"insertBatch\" parameterType=\"" + poClass + "\" >");
+            bw.newLine();
+            StringBuffer allColumnStr = new StringBuffer();
+            int index = 0;
+            for (FieldInfo fieldInfo : tableInfo.getFieldInfoList()) {
+                if (fieldInfo.getIsAutoIncrement()) {
+                    continue;
+                }
+                if (index != 0) {
+                    allColumnStr.append(",");
+                }
+                allColumnStr.append(fieldInfo.getFieldName());
+                index++;
+            }
+            bw.write("\t\tINSERT INTO " + tableInfo.getTableName() + " (" + allColumnStr + ") VALUES");
+            bw.newLine();
+            bw.write("\t\t<foreach collection=\"list\" item=\"item\" separator=\",\" >");
+            bw.newLine();
+            index = 0;
+            bw.write("\t\t\t");
+            bw.write("(");
+            for (FieldInfo fieldInfo : tableInfo.getFieldInfoList()) {
+                if (fieldInfo.getIsAutoIncrement()) {
+                    continue;
+                }
+                if (index != 0) {
+                    bw.write(",");
+                }
+                bw.write("#{item." + fieldInfo.getPropertyName() + "}");
+                index++;
+            }
+            bw.write(")");
+            bw.newLine();
+            bw.write("\t\t</foreach>");
+            bw.newLine();
+            bw.write("\t</insert>");
+            bw.newLine();
+
+            //批量插入或更新
+            bw.write("\t<!-- 批量插入或更新-->");
+            bw.newLine();
+            bw.write("\t<insert id=\"insertOrUpdateBatch\" parameterType=\"" + poClass + "\" >");
+            bw.newLine();
+            bw.write("\t\tINSERT INTO " + tableInfo.getTableName() + " (" + allColumnStr + ") VALUES");
+            bw.newLine();
+            bw.write("\t\t<foreach collection=\"list\" item=\"item\" separator=\",\" >");
+            bw.newLine();
+            index = 0;
+            bw.write("\t\t\t");
+            bw.write("(");
+            for (FieldInfo fieldInfo : tableInfo.getFieldInfoList()) {
+                if (fieldInfo.getIsAutoIncrement()) {
+                    continue;
+                }
+                if (index != 0) {
+                    bw.write(",");
+                }
+                bw.write("#{item." + fieldInfo.getPropertyName() + "}");
+                index++;
+            }
+            bw.write(")");
+            bw.newLine();
+            bw.write("\t\t</foreach>");
+            bw.newLine();
+            bw.write("\t\ton DUPLICATE key update");
+            bw.newLine();
+            bw.write("\t\t<trim prefix=\"\" suffix=\"\" suffixOverrides=\",\">");
+            bw.newLine();
+            for (FieldInfo fieldInfo: tableInfo.getFieldInfoList()) {
+                if (set.contains((fieldInfo.getFieldName()))) {
+                    continue;
+                }
+                bw.write("\t\t\t" + fieldInfo.getFieldName() + " = VALUES(" + fieldInfo.getFieldName() + "),");
+                bw.newLine();
+            }
+            bw.write("\t\t</trim>");
+            bw.newLine();
+            bw.write("\t</insert>");
+            bw.newLine();
+            //根据唯一索引查找、更改、删除
+            Map<String, List<FieldInfo>> keyIndexMap = tableInfo.getKeyIndexMap();
+
+            for (Map.Entry<String, List<FieldInfo>> entry : keyIndexMap.entrySet()) {
+                List<FieldInfo> keyFieldInfoList = entry.getValue();
+                index = 0;
+                StringBuffer methodName = new StringBuffer();
+                StringBuffer whereClause = new StringBuffer();
+                for (FieldInfo fieldInfo : keyFieldInfoList) {
+                    if (index != 0 ) {
+                        methodName.append("And");
+                        whereClause.append("and");
+                    }
+                    methodName.append(StringUtils.uperCaseFirstLetter(fieldInfo.getPropertyName()));
+                    whereClause.append(" " + fieldInfo.getFieldName() + " = #{" + fieldInfo.getPropertyName() + "} ");
+                    index++;
+                }
+                bw.write("\t<!-- 根据" + methodName + "查找-->");
+                bw.newLine();
+                bw.write("\t<select id=\"selectBy" + methodName + "\" " + "resultMap=\"base_result_map\">");
+                bw.newLine();
+                bw.write("\t\tselect <include refid=\"base_column_list\"/> from " + tableInfo.getTableName() + "  where " + whereClause);
+                bw.newLine();
+                bw.write("\t</select>");
+                bw.newLine();
+                bw.write("\t<!-- 根据" + methodName + "删除-->");
+                bw.newLine();
+                bw.write("\t<delete id=\"deleteBy" + methodName + "\" >");
+                bw.newLine();
+                bw.write("\t\tdelete from " + tableInfo.getTableName() + "  where " + whereClause);
+                bw.newLine();
+                bw.write("\t</delete>");
+                bw.newLine();
+                bw.write("\t<!-- 根据" + methodName + "更改-->");
+                bw.newLine();
+                bw.write("\t<update id=\"updateBy" + methodName + "\" parameterType=\"" + poClass + "\">");
+                bw.newLine();
+                bw.write("\t\tUPDATE " + tableInfo.getTableName());
+                bw.newLine();
+                bw.write("\t\t<set>");
+                bw.newLine();
+                for (FieldInfo fieldInfo : tableInfo.getFieldInfoList()) {
+                    bw.write("\t\t\t<if test=\"bean." + fieldInfo.getPropertyName() + " != null\">");
+                    bw.newLine();
+                    bw.write("\t\t\t\t" + fieldInfo.getFieldName() + "=#{bean." + fieldInfo.getPropertyName() + "},");
+                    bw.newLine();
+                    bw.write("\t\t\t</if>");
+                    bw.newLine();
+                }
+
+                bw.write("\t\t</set>");
+                bw.newLine();
+                bw.write("\t\twhere " + whereClause);
+                bw.newLine();
+                bw.write("\t</update>");
+                bw.newLine();
+                bw.newLine();
+            }
 
             bw.write("</mapper>");
             bw.flush();
