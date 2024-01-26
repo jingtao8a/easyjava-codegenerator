@@ -19,8 +19,22 @@ public class BuildBase {
         //生成BaseMapper
         headerInfoList.clear();
         headerInfoList.add("package " + Constants.PACKAGE_MAPPER + ";");
-
         build(headerInfoList, "BaseMapper", Constants.PATH_MAPPER);
+        //生成PageSize枚举
+        headerInfoList.clear();
+        headerInfoList.add("package " + Constants.PACKAGE_ENUM + ";");
+        build(headerInfoList, "PageSize", Constants.PATH_ENUM);
+
+        //生成SimplePage
+        headerInfoList.clear();
+        headerInfoList.add("package " + Constants.PACKAGE_QUERY + ";");
+        headerInfoList.add("import " + Constants.PACKAGE_ENUM + "." + "PageSize;");
+        build(headerInfoList, "SimplePage", Constants.PATH_QUERY);
+
+        //生成BaseQuery
+        headerInfoList.clear();
+        headerInfoList.add("package " + Constants.PACKAGE_QUERY + ";");
+        build(headerInfoList, "BaseQuery", Constants.PATH_QUERY);
     }
 
     private static void build(List<String> headerInfoList, String fileName, String outPutPath) {

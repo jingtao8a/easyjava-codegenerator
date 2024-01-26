@@ -26,12 +26,14 @@ public class Constants {
     public static String PATH_UTILS;
     public static String PATH_QUERY;
     public static String PATH_MAPPER;
+    public static String PATH_ENUM;
     public static String PATH_MAPPER_XML;
     public static String PACKAGE_BASE;
     public static String PACKAGE_PO;
     public static String PACKAGE_UTILS;
     public static String PACKAGE_QUERY;
     public static String PACKAGE_MAPPER;
+    public static String PACKAGE_ENUM;
     static {
         //需要忽略的属性
         IGNORE_BEAN_TOJSON_FILED = PropertiesUtils.getString("ignore.bean.tojson.filed");
@@ -56,6 +58,7 @@ public class Constants {
         PACKAGE_UTILS = PACKAGE_BASE + "." + PropertiesUtils.getString("package.utils");
         PACKAGE_QUERY = PACKAGE_BASE + "." + PropertiesUtils.getString("package.query");
         PACKAGE_MAPPER = PACKAGE_BASE + "." + PropertiesUtils.getString("package.mapper");
+        PACKAGE_ENUM = PACKAGE_BASE + "." + PropertiesUtils.getString("package.enum");
 
         PATH_BASE = PropertiesUtils.getString("path.base");
         PATH_BASE = PATH_BASE + PATH_JAVA;
@@ -64,6 +67,7 @@ public class Constants {
         PATH_UTILS = PATH_BASE + "/" + PACKAGE_UTILS.replace(".", "/");
         PATH_QUERY = PATH_BASE + "/" + PACKAGE_QUERY.replace(".", "/");
         PATH_MAPPER = PATH_BASE + "/" + PACKAGE_MAPPER.replace(".", "/");
+        PATH_ENUM = PATH_BASE + "/" + PACKAGE_ENUM.replace(".", "/");
         PATH_MAPPER_XML = PropertiesUtils.getString("path.base") + PATH_RESOURCES + "/" + PACKAGE_MAPPER.replace(".", "/");
     }
 

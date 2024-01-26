@@ -52,7 +52,7 @@ public class BuildQuery {
             bw.newLine();
             bw.write("@ToString");
             bw.newLine();
-            bw.write("public class " + className + " {");
+            bw.write("public class " + className + " extends BaseQuery {");
             bw.newLine();
 
             List<FieldInfo> extendList = new ArrayList<>();
@@ -72,21 +72,21 @@ public class BuildQuery {
                     extendList.add(fuzzyField);
                 }
                 if (ArrayUtils.contains(Constants.SQL_DATE_TIME_TYPES, fieldInfo.getSqlType()) || ArrayUtils.contains(Constants.SQL_DATE_TYPES, fieldInfo.getSqlType())) {
-                    bw.write("\tprivate " + fieldInfo.getJavaType() + " " + fieldInfo.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_TIME_START + ";");
+                    bw.write("\tprivate String " + fieldInfo.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_TIME_START + ";");
                     bw.newLine();
-                    bw.write("\tprivate " + fieldInfo.getJavaType() + " " + fieldInfo.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_TIME_END + ";");
+                    bw.write("\tprivate String " + fieldInfo.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_TIME_END + ";");
                     bw.newLine();
                     bw.newLine();
 
                     FieldInfo timeStartField = new FieldInfo();
-                    timeStartField.setJavaType(fieldInfo.getJavaType());
+                    timeStartField.setJavaType("String");
                     timeStartField.setPropertyName(fieldInfo.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_TIME_START);
                     timeStartField.setFieldName(fieldInfo.getFieldName());
                     timeStartField.setSqlType(fieldInfo.getSqlType());
                     extendList.add(timeStartField);
 
                     FieldInfo timeEndField = new FieldInfo();
-                    timeEndField.setJavaType(fieldInfo.getJavaType());
+                    timeEndField.setJavaType("String");
                     timeEndField.setPropertyName(fieldInfo.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_TIME_END);
                     timeEndField.setFieldName(fieldInfo.getFieldName());
                     timeEndField.setSqlType(fieldInfo.getSqlType());
