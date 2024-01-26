@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -177,6 +178,58 @@ public class BuildMapperXml {
             bw.newLine();
             bw.write("\t</select>");
             bw.newLine();
+
+            //单条插入
+            bw.newLine();
+            bw.write("\t<!-- 单条插入 -->");
+            bw.newLine();
+            bw.write("\t<insert id=\"insert\" parameterType=\"" + Constants.PACKAGE_PO + "." + tableInfo.getBeanName() + "\">");
+            bw.newLine();
+            FieldInfo autoIncrementField = null;
+            for (FieldInfo fieldInfo : tableInfo.getFieldInfoList()) {
+                if (fieldInfo.getIsAutoIncrement()) {
+                    autoIncrementField = fieldInfo;
+                    break;
+                }
+            }
+            if (autoIncrementField != null) {
+                bw.write("\t\t<selectKey keyProperty=\"bean." + autoIncrementField.getPropertyName() +
+                        "\" resultType=\"" + autoIncrementField.getJavaType() + "\" order=\"AFTER\"");
+                bw.newLine();
+                bw.write("\t\t\tSELECT LAST_INSERT_ID()");
+                bw.newLine();
+                bw.write("\t\t</selectKey>");
+            }
+            bw.newLine();
+            bw.write("\t\tINSERT INTO " + tableInfo.getTableName());
+            bw.newLine();
+            bw.write("\t\t<trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">");
+            bw.newLine();
+            for (FieldInfo fieldInfo: tableInfo.getFieldInfoList()) {
+                bw.write("\t\t\t<if test=\"bean." + fieldInfo.getPropertyName() + " != null\">");
+                bw.newLine();
+                bw.write("\t\t\t\t" + fieldInfo.getFieldName() + ",");
+                bw.newLine();
+                bw.write("\t\t\t</if>");
+                bw.newLine();
+            }
+            bw.write("\t\t</trim>");
+            bw.newLine();
+            bw.write("\t\t<trim prefix=\"VALUES (\" suffix=\")\" suffixOverrides=\",\">");
+            bw.newLine();
+            for (FieldInfo fieldInfo: tableInfo.getFieldInfoList()) {
+                bw.write("\t\t\t<if test=\"bean." + fieldInfo.getPropertyName() + " != null\">");
+                bw.newLine();
+                bw.write("\t\t\t\t#{bean." + fieldInfo.getPropertyName() + "},");
+                bw.newLine();
+                bw.write("\t\t\t</if>");
+                bw.newLine();
+            }
+            bw.write("\t\t</trim>");
+            bw.newLine();
+            bw.write("\t</insert>");
+            bw.newLine();
+
             bw.write("</mapper>");
             bw.flush();
         } catch (Exception e) {

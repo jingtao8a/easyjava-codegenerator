@@ -60,12 +60,12 @@ public class BuildMapper {
                 bw.newLine();
 
                 BuildComment.createFieldComment(bw, "根据" + methodName + "更新");
-                bw.write("\t Integer updateBy" + methodName + "(@Param(\"bean\") T t, " + methodParams + ");");
+                bw.write("\t Long updateBy" + methodName + "(@Param(\"bean\") T t, " + methodParams + ");");
                 bw.newLine();
                 bw.newLine();
 
                 BuildComment.createFieldComment(bw, "根据" + methodName + "删除");
-                bw.write("\t Integer deleteBy" + methodName + "(" + methodParams + ");");
+                bw.write("\t Long deleteBy" + methodName + "(" + methodParams + ");");
                 bw.newLine();
                 bw.newLine();
             }

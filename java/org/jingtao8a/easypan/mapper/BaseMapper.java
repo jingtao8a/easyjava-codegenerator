@@ -1,3 +1,4 @@
+package org.jingtao8a.easypan.mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
