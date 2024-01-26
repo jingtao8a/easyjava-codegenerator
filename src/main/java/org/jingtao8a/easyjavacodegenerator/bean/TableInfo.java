@@ -18,6 +18,8 @@ public class TableInfo {
     private String comment;
 //    字段信息
     private List<FieldInfo> fieldInfoList;
+//    扩展字段信息
+    private List<FieldInfo> extendFieldInfoList;
 //    唯一索引集合
     private Map<String , List<FieldInfo>> keyIndexMap = new LinkedHashMap<>();
 //    是否有date类型

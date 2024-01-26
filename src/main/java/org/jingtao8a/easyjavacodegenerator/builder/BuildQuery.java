@@ -10,6 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BuildQuery {
     private static final Logger logger = LoggerFactory.getLogger(BuildQuery.class);
@@ -51,6 +54,8 @@ public class BuildQuery {
             bw.newLine();
             bw.write("public class " + className + " {");
             bw.newLine();
+
+            List<FieldInfo> extendList = new ArrayList<>();
             for (FieldInfo fieldInfo : tableInfo.getFieldInfoList()) {
                 BuildComment.createFieldComment(bw, fieldInfo.getComment());
                 bw.write("\tprivate " + fieldInfo.getJavaType() + " " + fieldInfo.getPropertyName() + ";");
@@ -59,6 +64,12 @@ public class BuildQuery {
                     bw.write("\tprivate " + fieldInfo.getJavaType() + " " + fieldInfo.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_FUZZY + ";");
                     bw.newLine();
                     bw.newLine();
+                    FieldInfo fuzzyField = new FieldInfo();
+                    fuzzyField.setJavaType(fieldInfo.getJavaType());
+                    fuzzyField.setPropertyName(fieldInfo.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_FUZZY);
+                    fuzzyField.setFieldName(fieldInfo.getFieldName());
+                    fuzzyField.setSqlType(fieldInfo.getSqlType());
+                    extendList.add(fuzzyField);
                 }
                 if (ArrayUtils.contains(Constants.SQL_DATE_TIME_TYPES, fieldInfo.getSqlType()) || ArrayUtils.contains(Constants.SQL_DATE_TYPES, fieldInfo.getSqlType())) {
                     bw.write("\tprivate " + fieldInfo.getJavaType() + " " + fieldInfo.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_TIME_START + ";");
@@ -66,8 +77,23 @@ public class BuildQuery {
                     bw.write("\tprivate " + fieldInfo.getJavaType() + " " + fieldInfo.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_TIME_END + ";");
                     bw.newLine();
                     bw.newLine();
+
+                    FieldInfo timeStartField = new FieldInfo();
+                    timeStartField.setJavaType(fieldInfo.getJavaType());
+                    timeStartField.setPropertyName(fieldInfo.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_TIME_START);
+                    timeStartField.setFieldName(fieldInfo.getFieldName());
+                    timeStartField.setSqlType(fieldInfo.getSqlType());
+                    extendList.add(timeStartField);
+
+                    FieldInfo timeEndField = new FieldInfo();
+                    timeEndField.setJavaType(fieldInfo.getJavaType());
+                    timeEndField.setPropertyName(fieldInfo.getPropertyName() + Constants.SUFFIX_BEAN_QUERY_TIME_END);
+                    timeEndField.setFieldName(fieldInfo.getFieldName());
+                    timeEndField.setSqlType(fieldInfo.getSqlType());
+                    extendList.add(timeEndField);
                 }
             }
+            tableInfo.setExtendFieldInfoList(extendList);
             bw.write("}");
             bw.flush();
         } catch (Exception e) {

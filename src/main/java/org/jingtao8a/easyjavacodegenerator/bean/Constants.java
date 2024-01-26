@@ -26,6 +26,7 @@ public class Constants {
     public static String PATH_UTILS;
     public static String PATH_QUERY;
     public static String PATH_MAPPER;
+    public static String PATH_MAPPER_XML;
     public static String PACKAGE_BASE;
     public static String PACKAGE_PO;
     public static String PACKAGE_UTILS;
@@ -63,6 +64,7 @@ public class Constants {
         PATH_UTILS = PATH_BASE + "/" + PACKAGE_UTILS.replace(".", "/");
         PATH_QUERY = PATH_BASE + "/" + PACKAGE_QUERY.replace(".", "/");
         PATH_MAPPER = PATH_BASE + "/" + PACKAGE_MAPPER.replace(".", "/");
+        PATH_MAPPER_XML = PropertiesUtils.getString("path.base") + PATH_RESOURCES + "/" + PACKAGE_MAPPER.replace(".", "/");
     }
 
     public static final String[] SQL_DATE_TIME_TYPES = new String[]{"datetime", "timestamp"};

@@ -1,10 +1,11 @@
 package org.jingtao8a.easypan.mapper;
+import org.apache.ibatis.annotations.Param;
 /**
 @Description:用户信息Mapper
-@Date:2024-01-25
+@Date:2024-01-26
 */
 
-public interface UserInfoMapper<T,P> extentds BaseMapper {
+public interface UserInfoMapper<T,P> extends BaseMapper {
 	/**
 	 * 根据UserId查询
 	*/

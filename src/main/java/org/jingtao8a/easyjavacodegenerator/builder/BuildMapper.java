@@ -30,11 +30,12 @@ public class BuildMapper {
             bw = new BufferedWriter(outw);
             bw.write("package " + Constants.PACKAGE_MAPPER + ";");
             bw.newLine();
-
+            bw.write("import org.apache.ibatis.annotations.Param;");
+            bw.newLine();
             //构建类注释
             BuildComment.createClassComment(bw, tableInfo.getComment() + "Mapper");
             bw.newLine();
-            bw.write("public interface " + className + "<T,P> extentds BaseMapper {");
+            bw.write("public interface " + className + "<T,P> extends BaseMapper {");
             bw.newLine();
             Map<String, List<FieldInfo>> keyIndexMap = tableInfo.getKeyIndexMap();
 
