@@ -19,6 +19,8 @@ public class RunApplication {
             BuildQuery.execute(tableInfo);
             BuildMapper.execute(tableInfo);
             BuildMapperXml.execute(tableInfo);
+            BuildService.execute(tableInfo);
+            BuildServiceImpl.execute(tableInfo);
         }
 //        System.out.println(Constants.PATH_PO);
 //        System.out.println(Constants.PATH_BASE);

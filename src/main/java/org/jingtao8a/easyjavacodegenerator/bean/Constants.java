@@ -27,6 +27,9 @@ public class Constants {
     public static String PATH_QUERY;
     public static String PATH_MAPPER;
     public static String PATH_ENUM;
+    public static String PATH_SERVICE;
+    public static String PATH_SERVICE_IMPL;
+    public static String PATH_VO;
     public static String PATH_MAPPER_XML;
     public static String PACKAGE_BASE;
     public static String PACKAGE_PO;
@@ -34,6 +37,9 @@ public class Constants {
     public static String PACKAGE_QUERY;
     public static String PACKAGE_MAPPER;
     public static String PACKAGE_ENUM;
+    public static String PACKAGE_SERVICE;
+    public static String PACKAGE_SERVICE_IMPL;
+    public static String PACKAGE_VO;
     static {
         //需要忽略的属性
         IGNORE_BEAN_TOJSON_FILED = PropertiesUtils.getString("ignore.bean.tojson.filed");
@@ -59,6 +65,9 @@ public class Constants {
         PACKAGE_QUERY = PACKAGE_BASE + "." + PropertiesUtils.getString("package.query");
         PACKAGE_MAPPER = PACKAGE_BASE + "." + PropertiesUtils.getString("package.mapper");
         PACKAGE_ENUM = PACKAGE_BASE + "." + PropertiesUtils.getString("package.enum");
+        PACKAGE_SERVICE = PACKAGE_BASE + "." + PropertiesUtils.getString("package.service");
+        PACKAGE_SERVICE_IMPL = PACKAGE_BASE + "." + PropertiesUtils.getString("package.service.impl");
+        PACKAGE_VO = PACKAGE_BASE + "." + PropertiesUtils.getString("package.vo");
 
         PATH_BASE = PropertiesUtils.getString("path.base");
         PATH_BASE = PATH_BASE + PATH_JAVA;
@@ -68,6 +77,9 @@ public class Constants {
         PATH_QUERY = PATH_BASE + "/" + PACKAGE_QUERY.replace(".", "/");
         PATH_MAPPER = PATH_BASE + "/" + PACKAGE_MAPPER.replace(".", "/");
         PATH_ENUM = PATH_BASE + "/" + PACKAGE_ENUM.replace(".", "/");
+        PATH_SERVICE = PATH_BASE + "/" + PACKAGE_SERVICE.replace(".", "/");
+        PATH_SERVICE_IMPL = PATH_BASE + "/" + PACKAGE_SERVICE_IMPL.replace(".", "/");
+        PATH_VO = PATH_BASE + "/" + PACKAGE_VO.replace(".", "/");
         PATH_MAPPER_XML = PropertiesUtils.getString("path.base") + PATH_RESOURCES + "/" + PACKAGE_MAPPER.replace(".", "/");
     }
 
