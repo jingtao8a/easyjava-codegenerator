@@ -31,7 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
-java/*
-resources/*
-java
-resources
+generate/*
+generate
