@@ -53,8 +53,8 @@ public class BuildServiceImpl {
             bw.newLine();
             bw.write("import " + Constants.PACKAGE_QUERY + ".SimplePage;");
             bw.newLine();
-            BuildComment.createClassComment(bw, tableInfo.getBeanName() + tableInfo.getBeanName() + "Service");
-            bw.write("@Service(\"" + tableInfo.getBeanName() + "Service\")");
+            BuildComment.createClassComment(bw,tableInfo.getBeanName() + "Service");
+            bw.write("@Service(\"" + StringUtils.lowCaseFirstLetter(tableInfo.getBeanName()) + "Service\")");
             bw.newLine();
             bw.write("public class " + className + " implements " + tableInfo.getBeanName() + "Service {");
             bw.newLine();
@@ -62,7 +62,7 @@ public class BuildServiceImpl {
 
             bw.write("\t@Resource");
             bw.newLine();
-            bw.write("\tprivate " + mapperName + "<" + tableInfo.getBeanName() + ", " +tableInfo.getBeanParamName() + "> " + StringUtils.lowCaseFirstLetter(mapperName) +";");
+            bw.write("\tprivate " + mapperName + "<" + tableInfo.getBeanName() + ", " +tableInfo.getBeanParamName() + "> " + mapperBeanName +";");
             bw.newLine();
 
             BuildComment.createFieldComment(bw, "根据条件查询列表");
