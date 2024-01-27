@@ -49,10 +49,14 @@ public class BuildController {
             bw.newLine();
             bw.write("import javax.annotation.Resource;");
             bw.newLine();
+            bw.write("import org.springframework.web.bind.annotation.RequestBody;");
+            bw.newLine();
 
             //构建类注释
             BuildComment.createClassComment(bw, tableInfo.getBeanName() + "Controller");
             bw.write("@RestController");
+            bw.newLine();
+            bw.write("@RequestMapping(\"/" + StringUtils.lowCaseFirstLetter(tableInfo.getBeanName()) + "\")");
             bw.newLine();
             bw.write("public class " + className + " extends ABaseController {");
             bw.newLine();
@@ -103,7 +107,7 @@ public class BuildController {
             BuildComment.createFieldComment(bw, "批量新增");
             bw.write("\t@RequestMapping(\"addBatch\")");
             bw.newLine();
-            bw.write("\tpublic ResponseVO addBatch(List<" + tableInfo.getBeanName() + "> listBean) {");
+            bw.write("\tpublic ResponseVO addBatch(@RequestBody List<" + tableInfo.getBeanName() + "> listBean) {");
             bw.newLine();
             bw.write("\t\t" + serviceBeanName + ".addBatch(listBean);");
             bw.newLine();
@@ -116,7 +120,7 @@ public class BuildController {
             BuildComment.createFieldComment(bw, "批量新增/修改");
             bw.write("\t@RequestMapping(\"addOrUpdateBatch\")");
             bw.newLine();
-            bw.write("\t public ResponseVO addOrUpdateBatch(List<" + tableInfo.getBeanName() + "> listBean) {");
+            bw.write("\t public ResponseVO addOrUpdateBatch(@RequestBody List<" + tableInfo.getBeanName() + "> listBean) {");
             bw.newLine();
             bw.write("\t\t" + serviceBeanName + ".addOrUpdateBatch(listBean);");
             bw.newLine();
