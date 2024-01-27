@@ -1,6 +1,5 @@
 package org.jingtao8a.easyjavacodegenerator.builder;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.jingtao8a.easyjavacodegenerator.bean.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +39,37 @@ public class BuildBase {
         headerInfoList.clear();
         headerInfoList.add("package " + Constants.PACKAGE_VO + ";");
         build(headerInfoList, "PaginationResultVO", Constants.PATH_VO);
+
+        //生成ResponseVO
+        headerInfoList.clear();
+        headerInfoList.add("package " + Constants.PACKAGE_VO + ";");
+        build(headerInfoList, "ResponseVO", Constants.PATH_VO);
+
+        //生成ResponseCodeEnum
+        headerInfoList.clear();
+        headerInfoList.add("package " + Constants.PACKAGE_ENUM + ";");
+        build(headerInfoList, "ResponseCodeEnum", Constants.PATH_ENUM);
+
+        //生成BusinessException
+        headerInfoList.clear();
+        headerInfoList.add("package " + Constants.PACKAGE_EXCEPTION + ";");
+        headerInfoList.add("import " + Constants.PACKAGE_ENUM + ".ResponseCodeEnum;");
+        build(headerInfoList, "BusinessException", Constants.PATH_EXCEPTION);
+
+        //生成ABaseController
+        headerInfoList.clear();
+        headerInfoList.add("package " + Constants.PACKAGE_CONTROLLER + ";");
+        headerInfoList.add("import " + Constants.PACKAGE_ENUM + ".ResponseCodeEnum;");
+        headerInfoList.add("import " + Constants.PACKAGE_VO + ".ResponseVO;");
+        build(headerInfoList, "ABaseController", Constants.PATH_CONTROLLER);
+
+        //生成AGlobalExceptionHandlerController
+        headerInfoList.clear();
+        headerInfoList.add("package " + Constants.PACKAGE_CONTROLLER + ";");
+        headerInfoList.add("import " + Constants.PACKAGE_ENUM + ".ResponseCodeEnum;");
+        headerInfoList.add("import " + Constants.PACKAGE_EXCEPTION + ".BusinessException;");
+        headerInfoList.add("import " + Constants.PACKAGE_VO + ".ResponseVO;");
+        build(headerInfoList, "AGlobalExceptionHandlerController", Constants.PATH_CONTROLLER);
     }
 
     private static void build(List<String> headerInfoList, String fileName, String outPutPath) {
