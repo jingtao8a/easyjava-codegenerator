@@ -1,7 +1,6 @@
 package org.jingtao8a.easyjavacodegenerator.builder;
 
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jingtao8a.easyjavacodegenerator.bean.Constants;
 import org.jingtao8a.easyjavacodegenerator.bean.FieldInfo;

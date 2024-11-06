@@ -1,6 +1,5 @@
 package org.jingtao8a.easyjavacodegenerator.builder;
 
-import com.sun.org.apache.bcel.internal.classfile.ConstantString;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jingtao8a.easyjavacodegenerator.bean.Constants;
 import org.jingtao8a.easyjavacodegenerator.bean.FieldInfo;
@@ -10,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.lang.reflect.Field;
 import java.util.*;
 
 public class BuildMapperXml {

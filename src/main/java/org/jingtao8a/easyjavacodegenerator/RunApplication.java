@@ -1,12 +1,7 @@
 package org.jingtao8a.easyjavacodegenerator;
 
-import org.jingtao8a.easyjavacodegenerator.bean.Constants;
 import org.jingtao8a.easyjavacodegenerator.bean.TableInfo;
 import org.jingtao8a.easyjavacodegenerator.builder.*;
-import org.jingtao8a.easyjavacodegenerator.utils.DateUtils;
-import org.jingtao8a.easyjavacodegenerator.utils.JsonUtils;
-
-import java.util.Date;
 import java.util.List;
 
 public class RunApplication {
